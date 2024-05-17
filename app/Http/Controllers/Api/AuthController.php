@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginUserRequest;
 use App\Trait\ApiResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,15 +16,10 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
-    public function login(Request $request){
-        $validator = Validator::make($request->all(), [
-            'username' => 'required|string',
-            'password' => 'required|string|min:6',
-        ]);
-        if ($validator->fails()) {
-            return $this->apiResponse(null,$validator->errors(),400);
-        }
-        if (! $token = auth()->attempt($validator->validated())) {
+    public function login(LoginUserRequest $loginUserRequest){
+
+
+        if (! $token = auth()->attempt($loginUserRequest->validated())) {
             return $this->apiResponse(null,'Unauthorized',401);
         }
         return $this->createNewToken($token);

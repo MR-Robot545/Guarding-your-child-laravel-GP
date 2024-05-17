@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('guardians', function (Blueprint $table) {
             $table->id();
-            $table->string("SSN_father");
+            $table->string("SSN_father")->unique();
             $table->string("father_name",50);
-            $table->string("SSN_mother");
+            $table->string("SSN_mother")->unique();
             $table->string("mother_name",50);
             $table->string("address",200);
             $table->string('phone')->unique();

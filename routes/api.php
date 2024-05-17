@@ -31,8 +31,9 @@ Route::group(['middleware'=>'jwt.verify'],function (){
     ////routes for doctor
     Route::group(['middleware'=>'doctorCheck','prefix'=>'doctor'],function (){
 
-
-
+        Route::get('/kids',[\App\Http\Controllers\Api\DoctorController::class,'allKids']);
+        Route::post('/search',[\App\Http\Controllers\Api\DoctorController::class,'search']);
+        Route::post('/add',[\App\Http\Controllers\Api\DoctorController::class,'addKid']);
 
 
     });
@@ -43,7 +44,7 @@ Route::group(['middleware'=>'jwt.verify'],function (){
     ///routes for police
     Route::group(['middleware'=>'policeCheck','prefix'=>'police'],function (){
 
-        Route::post('/search',[KidController::class,'search']);
+        Route::post('/search',[\App\Http\Controllers\Api\PoliceController::class,'search']);
 
     });
 });
