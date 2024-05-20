@@ -13,12 +13,18 @@ class KidsService
     }
     public function getKid($id)
     {
-        return Kid::find($id)->first();
+
+        return Kid::find($id);
     }
     public function addKid($data)
     {
         $last_index = Kid::max('index');
         $current_index = $last_index + 1;
+        if ($data->gender=="male"){
+            $gender = "M";
+        }else if ($data->gender=="female"){
+            $gender = "F";
+        }
 
         // Create a Guzzle client instance
         $client = new Client();
@@ -36,7 +42,7 @@ class KidsService
                 ],
                 [
                     'name'     =>'gender',
-                    'contents' =>$data->gender,
+                    'contents' =>$gender,
                 ],
             ],
             'verify' => false, // Disable SSL verification
@@ -60,12 +66,56 @@ class KidsService
 
         return $kid;
     }
+
+    public function updateKid($data,$kidID)
+    {
+
+
+        // Create a Guzzle client instance
+        $client = new Client();
+        $message ="Kid Info updated successfully";
+        if($data->image){
+
+            $response = $client->post('https://819f-41-46-210-90.ngrok-free.app/Update', [
+                'multipart' => [
+                    [
+                        'name'     => 'new_image',
+                        'contents' => fopen($data->image->getPathname(), 'r'), // Assuming $data->image is the image file
+                    ],
+                    [
+                        'name'     => 'user_id',
+                        'contents' => $kidID,
+                    ],
+                ],
+                'verify' => false, // Disable SSL verification
+            ]);
+
+            // Get response body
+            $responseBody = $response->getBody()->getContents();
+
+            $responseData = json_decode($responseBody, true);
+            $message .= " and FootPrint updated in model";
+        }
+
+        return $message;
+        $kid = $this->getKid($kidID);
+
+        $kid->update([
+            'SSN'=>$data->SSN,
+            'first_name'=>$data->first_name,
+            'last_name'=>$data->last_name,
+            'gender'=>$data->gender,
+            'birthDate'=>$data->birthDate,
+            'doctor_id'=>auth()->user()->id,
+        ]);
+
+    }
     public function search($image)
     {
 
         // Create a Guzzle client instance
         $client = new Client();
-        $response = $client->post('https://12c9-156-214-234-11.ngrok-free.app/search', [
+        $response = $client->post('https://819f-41-46-210-90.ngrok-free.app/search', [
             'multipart' => [
                 [
                     'name'     => 'image',

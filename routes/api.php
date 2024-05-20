@@ -31,9 +31,11 @@ Route::group(['middleware'=>'jwt.verify'],function (){
     ////routes for doctor
     Route::group(['middleware'=>'doctorCheck','prefix'=>'doctor'],function (){
 
+        Route::get('/kid/{id}',[\App\Http\Controllers\Api\DoctorController::class,'get']);
         Route::get('/kids',[\App\Http\Controllers\Api\DoctorController::class,'allKids']);
         Route::post('/search',[\App\Http\Controllers\Api\DoctorController::class,'search']);
         Route::post('/add',[\App\Http\Controllers\Api\DoctorController::class,'addKid']);
+        Route::post('/update/{kid}',[\App\Http\Controllers\Api\DoctorController::class,'updateKid']);
 
 
     });

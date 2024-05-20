@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddKidRequest;
+use App\Http\Requests\UpdateKidRequest;
 use App\Models\Kid;
 use App\Services\GuardiansService;
 use App\Services\KidsService;
@@ -21,6 +22,11 @@ class DoctorController extends Controller
     {
         $this->kidService=$kidService;
         $this->guardianService=$guardianService;
+    }
+
+    public function get($id)
+    {
+        return $this->kidService->getKid($id);
     }
 
     public function allKids()
@@ -41,6 +47,26 @@ class DoctorController extends Controller
 
         if ($kidWithGuardian) {
             return $this->apiResponse($kidWithGuardian, 'Kid added successfully with guardian', 201);
+        } else {
+            return $this->apiResponse(null, 'There were some errors', 500);
+        }
+    }
+
+    public function updateKid(UpdateKidRequest $updateKidRequest,$kid)
+    {
+
+
+        $message = $this->kidService->updateKid($updateKidRequest,$kid);
+
+        $this->guardianService->updateGuardians($updateKidRequest,$kid);
+
+
+        // Fetch the kid with its guardian
+        $kidWithGuardian = Kid::with('guardian')->find($kid);
+
+
+        if ($kidWithGuardian) {
+            return $this->apiResponse($kidWithGuardian, $message, 201);
         } else {
             return $this->apiResponse(null, 'There were some errors', 500);
         }
