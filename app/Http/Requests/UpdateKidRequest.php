@@ -42,18 +42,18 @@ class UpdateKidRequest extends FormRequest
             'birthDate' => 'required|date',
             'SSN_father' => [
                 'required',
-                Rule::unique('guardians', 'SSN_father')->ignore($guardian_id),
+//                Rule::unique('guardians', 'SSN_father')->ignore($guardian_id),
             ],
             'father_name' => 'required|max:50',
             'SSN_mother' => [
                 'required',
-                Rule::unique('guardians', 'SSN_mother')->ignore($guardian_id),
+//                Rule::unique('guardians', 'SSN_mother')->ignore($guardian_id),
             ],
             'mother_name' => 'required|max:50',
             'address' => 'required|max:200',
             'phone' => [
                 'required',
-                Rule::unique('guardians', 'phone')->ignore($guardian_id),
+//                Rule::unique('guardians', 'phone')->ignore($guardian_id),
             ],
         ];
     }

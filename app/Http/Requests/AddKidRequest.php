@@ -33,12 +33,12 @@ class AddKidRequest extends FormRequest
             'last_name' => 'required|max:50',
             'gender' => 'required|in:male,female',
             'birthDate' => 'required|date',
-            'SSN_father'=>'required|unique:guardians,SSN_father',
+            'SSN_father'=>'required',
             'father_name'=>'required|max:50',
-            'SSN_mother'=>'required|unique:guardians,SSN_mother',
+            'SSN_mother'=>'required',
             'mother_name'=>'required|max:50',
             'address'=>'required|max:200',
-            'phone'=>'required|unique:guardians,phone',
+            'phone'=>'required',
         ];
     }
     protected function failedValidation(Validator $validator)

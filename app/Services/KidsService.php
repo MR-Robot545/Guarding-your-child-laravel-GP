@@ -4,12 +4,22 @@ namespace App\Services;
 
 use App\Models\Kid;
 use GuzzleHttp\Client;
-
+use Illuminate\Pagination\LengthAwarePaginator;
 class KidsService
 {
     public function getKids()
     {
-        return Kid::all();
+        $page = request()->get('page', 1);
+
+        $paginatedKids = Kid::with('guardian')->paginate(10, ['*'], 'page', $page);
+
+        return [
+            'kids' => $paginatedKids->items(),
+            'last_page' => $paginatedKids->lastPage(),
+            'per_page' => $paginatedKids->perPage(),
+            'current_page' => $paginatedKids->currentPage(),
+            'next_page_url'=>$paginatedKids->nextPageUrl(),
+        ];
     }
     public function getKid($id)
     {
@@ -137,12 +147,30 @@ class KidsService
 
     public function searchBySSN($SSN)
     {
+        $kids = Kid::where('SSN', 'like', '%' . $SSN . '%')->with('guardian')->get();
 
-        $kids = Kid::where('SSN', 'like', '%' . $SSN . '%')->get();
-        // Calculate Levenshtein distance for each SSN
         foreach ($kids as $kid) {
             $kid->similarity = levenshtein($SSN, $kid->SSN);
         }
-        return $kids->sortBy('similarity');
+
+        $sortedKids = $kids->sortBy('similarity');
+
+        $page = request()->get('page', 1);
+        $perPage = 10;
+        $paginatedKids = new LengthAwarePaginator(
+            $sortedKids->forPage($page, $perPage),
+            $sortedKids->count(),
+            $perPage,
+            $page,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
+
+        return [
+            'kids' => $paginatedKids->items(),
+            'last_page' => $paginatedKids->lastPage(),
+            'per_page' => $paginatedKids->perPage(),
+            'current_page' => $paginatedKids->currentPage(),
+            'next_page_url'=>$paginatedKids->nextPageUrl(),
+        ];
     }
 }
