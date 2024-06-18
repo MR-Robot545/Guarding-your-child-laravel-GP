@@ -36,7 +36,7 @@ Route::group(['middleware'=>'jwt.verify'],function (){
         Route::post('/search',[\App\Http\Controllers\Api\DoctorController::class,'search']);
         Route::post('/add',[\App\Http\Controllers\Api\DoctorController::class,'addKid']);
         Route::post('/update/{kid}',[\App\Http\Controllers\Api\DoctorController::class,'updateKid']);
-
+        Route::post('/medicalHistory/{kid}',[\App\Http\Controllers\Api\DoctorController::class,'medicalHistory']);
 
     });
 

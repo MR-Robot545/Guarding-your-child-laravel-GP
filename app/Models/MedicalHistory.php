@@ -19,4 +19,9 @@ class MedicalHistory extends Model
     ];
 
     protected $hidden = ['created_at', 'updated_at'];
+
+    public function kid()
+    {
+        return $this->belongsTo(Kid::class,'kid_id');
+    }
 }

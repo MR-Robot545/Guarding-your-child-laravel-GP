@@ -25,4 +25,9 @@ class Kid extends Model
     {
         return $this->hasOne(Guardian::class,'kid_id');
     }
+
+    public function medicalHistory()
+    {
+        return $this->hasOne(MedicalHistory::class,'kid_id');
+    }
 }

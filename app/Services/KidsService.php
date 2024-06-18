@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Kid;
+use App\Models\MedicalHistory;
 use GuzzleHttp\Client;
 use Illuminate\Pagination\LengthAwarePaginator;
 class KidsService
@@ -14,7 +15,7 @@ class KidsService
         $paginatedKids = Kid::with('guardian')->paginate(10, ['*'], 'page', $page);
 
         return [
-            'kids' => $paginatedKids->items(),
+            'kids' => $paginatedKids->values(),
             'last_page' => $paginatedKids->lastPage(),
             'per_page' => $paginatedKids->perPage(),
             'current_page' => $paginatedKids->currentPage(),
@@ -86,7 +87,7 @@ class KidsService
         $message ="Kid Info updated successfully";
         if($data->image){
 
-            $response = $client->post('https://819f-41-46-210-90.ngrok-free.app/Update', [
+            $response = $client->post('https://8c25-197-53-147-118.ngrok-free.app/Update', [
                 'multipart' => [
                     [
                         'name'     => 'new_image',
@@ -107,7 +108,7 @@ class KidsService
             $message .= " and FootPrint updated in model";
         }
 
-        return $message;
+
         $kid = $this->getKid($kidID);
 
         $kid->update([
@@ -118,7 +119,7 @@ class KidsService
             'birthDate'=>$data->birthDate,
             'doctor_id'=>auth()->user()->id,
         ]);
-
+        return $message;
     }
     public function search($image)
     {
@@ -166,11 +167,25 @@ class KidsService
         );
 
         return [
-            'kids' => $paginatedKids->items(),
+            'kids' => $paginatedKids->values(),
             'last_page' => $paginatedKids->lastPage(),
             'per_page' => $paginatedKids->perPage(),
             'current_page' => $paginatedKids->currentPage(),
             'next_page_url'=>$paginatedKids->nextPageUrl(),
         ];
+    }
+
+    public function updateMedicalHistory($data,$kidID)
+    {
+        $medicalKid = MedicalHistory::where('kid_id',$kidID)->first();
+
+        $medicalKid->update([
+           'specialNeeds'=>$data->specialNeeds,
+            'chronicConditions'=>$data->chronicConditions,
+            'bloodType'=>$data->bloodType,
+            'previousSurgeries'=>$data->previousSurgeries,
+            'allergies'=>$data->allergies,
+        ]);
+        return $medicalKid;
     }
 }

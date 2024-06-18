@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddKidRequest;
+use App\Http\Requests\MedicalHistoryRequest;
 use App\Http\Requests\UpdateKidRequest;
 use App\Models\Kid;
 use App\Services\GuardiansService;
@@ -77,5 +78,11 @@ class DoctorController extends Controller
         $SSN = $request->SSN;
         $kids = $this->kidService->searchBySSN($SSN);
         return $this->apiResponse($kids,"Search Done Successfully",200);
+    }
+
+    public function medicalHistory(MedicalHistoryRequest $medicalHistoryRequest,$kid)
+    {
+        $medicalKid =  $this->kidService->updateMedicalHistory($medicalHistoryRequest,$kid);
+        return $this->apiResponse($medicalKid,'Update Medical History Successfully',201);
     }
 }
