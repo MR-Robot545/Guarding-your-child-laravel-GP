@@ -80,7 +80,13 @@ class DoctorController extends Controller
         return $this->apiResponse($kids,"Search Done Successfully",200);
     }
 
-    public function medicalHistory(MedicalHistoryRequest $medicalHistoryRequest,$kid)
+    public function medicalHistory($kid)
+    {
+        $medicalKid = $this->kidService->getMedicalHistory($kid);
+        return $this->apiResponse($medicalKid,'Get Medical History Successfully',200);
+    }
+
+    public function updateMedicalHistory(MedicalHistoryRequest $medicalHistoryRequest,$kid)
     {
         $medicalKid =  $this->kidService->updateMedicalHistory($medicalHistoryRequest,$kid);
         return $this->apiResponse($medicalKid,'Update Medical History Successfully',201);

@@ -41,7 +41,7 @@ class KidsService
         $client = new Client();
 
         // Make a POST request to the external API
-        $response = $client->post('https://12c9-156-214-234-11.ngrok-free.app/Add', [
+        $response = $client->post('https://d77f-41-34-151-249.ngrok-free.app/Add', [
             'multipart' => [
                 [
                     'name'     => 'image',
@@ -87,7 +87,7 @@ class KidsService
         $message ="Kid Info updated successfully";
         if($data->image){
 
-            $response = $client->post('https://8c25-197-53-147-118.ngrok-free.app/Update', [
+            $response = $client->post('https://d77f-41-34-151-249.ngrok-free.app/Update', [
                 'multipart' => [
                     [
                         'name'     => 'new_image',
@@ -126,7 +126,7 @@ class KidsService
 
         // Create a Guzzle client instance
         $client = new Client();
-        $response = $client->post('https://819f-41-46-210-90.ngrok-free.app/search', [
+        $response = $client->post('https://d77f-41-34-151-249.ngrok-free.app/search', [
             'multipart' => [
                 [
                     'name'     => 'image',
@@ -173,6 +173,12 @@ class KidsService
             'current_page' => $paginatedKids->currentPage(),
             'next_page_url'=>$paginatedKids->nextPageUrl(),
         ];
+    }
+
+    public function getMedicalHistory($kidID)
+    {
+        $medicalKid = MedicalHistory::where('kid_id',$kidID)->first();
+        return $medicalKid;
     }
 
     public function updateMedicalHistory($data,$kidID)
