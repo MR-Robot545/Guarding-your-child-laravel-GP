@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\adminCheck;
 use App\Http\Middleware\doctorCheck;
 use App\Http\Middleware\policeCheck;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -68,5 +69,6 @@ class Kernel extends HttpKernel
         'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
         'doctorCheck'=>doctorCheck::class,
         'policeCheck'=>policeCheck::class,
+        'adminCheck'=>adminCheck::class,
     ];
 }

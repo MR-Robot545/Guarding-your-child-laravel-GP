@@ -41,12 +41,17 @@ Route::group(['middleware'=>'jwt.verify'],function (){
     });
 
 
-
-
     ///routes for police
     Route::group(['middleware'=>'policeCheck','prefix'=>'police'],function (){
 
         Route::post('/search',[\App\Http\Controllers\Api\PoliceController::class,'search']);
+
+    });
+
+    ///routes for police
+    Route::group(['middleware'=>'adminCheck','prefix'=>'admin'],function (){
+
+        Route::post('/createAccount',[\App\Http\Controllers\Api\AdminController::class,'createAccount']);
 
     });
 });
