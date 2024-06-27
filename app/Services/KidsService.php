@@ -41,7 +41,7 @@ class KidsService
         $client = new Client();
 
         // Make a POST request to the external API
-        $response = $client->post('https://d77f-41-34-151-249.ngrok-free.app/Add', [
+        $response = $client->post('https://machineapp.azurewebsites.net/Add', [
             'multipart' => [
                 [
                     'name'     => 'image',
@@ -87,7 +87,7 @@ class KidsService
         $message ="Kid Info updated successfully";
         if($data->image){
 
-            $response = $client->post('https://d77f-41-34-151-249.ngrok-free.app/Update', [
+            $response = $client->post('https://machineapp.azurewebsites.net/Update', [
                 'multipart' => [
                     [
                         'name'     => 'new_image',
@@ -126,7 +126,7 @@ class KidsService
 
         // Create a Guzzle client instance
         $client = new Client();
-        $response = $client->post('https://d77f-41-34-151-249.ngrok-free.app/search', [
+        $response = $client->post('https://machineapp.azurewebsites.net/search', [
             'multipart' => [
                 [
                     'name'     => 'image',
