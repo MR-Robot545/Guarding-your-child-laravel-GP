@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Services\KidsService;
 class PoliceController extends Controller
 {
-    use ApiResponseTrait;
+
     public $kidService;
 
     public function __construct(KidsService $kidService)

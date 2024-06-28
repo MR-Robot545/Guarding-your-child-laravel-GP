@@ -11,7 +11,7 @@ use App\Models\User;
 use Validator;
 class AuthController extends Controller
 {
-    use ApiResponseTrait;
+
     public function __construct() {
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
@@ -24,21 +24,21 @@ class AuthController extends Controller
         return $this->createNewToken($token);
     }
 
-    public function register(Request $request) {
-
-        $validator = Validator::make($request->all(), [
-            'username' => 'required|string|between:2,100|unique:users',
-            'password' => 'required|string|confirmed|min:6',
-        ]);
-        if($validator->fails()){
-            return $this->apiResponse(null,$validator->errors(),400);
-        }
-        $user = User::create(array_merge(
-            $validator->validated(),
-            ['password' => bcrypt($request->password)]
-        ));
-        return $this->apiResponse($user,'User successfully registered',201);
-    }
+//    public function register(Request $request) {
+//
+//        $validator = Validator::make($request->all(), [
+//            'username' => 'required|string|between:2,100|unique:users',
+//            'password' => 'required|string|confirmed|min:6',
+//        ]);
+//        if($validator->fails()){
+//            return $this->apiResponse(null,$validator->errors(),400);
+//        }
+//        $user = User::create(array_merge(
+//            $validator->validated(),
+//            ['password' => bcrypt($request->password)]
+//        ));
+//        return $this->apiResponse($user,'User successfully registered',201);
+//    }
 
 
     public function logout() {
