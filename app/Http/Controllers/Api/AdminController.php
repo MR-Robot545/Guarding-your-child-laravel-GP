@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
-    use ApiResponseTrait;
     public function createAccount(Request $request)
     {
 

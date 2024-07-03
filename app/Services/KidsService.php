@@ -24,7 +24,6 @@ class KidsService
     }
     public function getKid($id)
     {
-
         return Kid::find($id);
     }
     public function addKid($data)
@@ -173,6 +172,13 @@ class KidsService
             'current_page' => $paginatedKids->currentPage(),
             'next_page_url'=>$paginatedKids->nextPageUrl(),
         ];
+    }
+
+    public function addMedicalHistory($kidID)
+    {
+        MedicalHistory::create([
+            'kid_id'=>$kidID
+        ]);
     }
 
     public function getMedicalHistory($kidID)

@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 
 class DoctorController extends Controller
 {
-    use ApiResponseTrait;
+
 
     public $kidService;
     public $guardianService;
@@ -45,6 +45,7 @@ class DoctorController extends Controller
         // Fetch the kid with its guardian
         $kidWithGuardian = Kid::with('guardian')->find($kid->id);
 
+        $this->kidService->addMedicalHistory($kid->id);
 
         if ($kidWithGuardian) {
             return $this->apiResponse($kidWithGuardian, 'Kid added successfully with guardian', 201);

@@ -17,7 +17,6 @@ class GuardiansService
             'phone'=>$data->phone,
             'kid_id'=>$kidID,
         ]);
-
     }
 
     public function updateGuardians($data,$kid)

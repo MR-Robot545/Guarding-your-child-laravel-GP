@@ -56,3 +56,6 @@ Route::group(['middleware'=>'jwt.verify'],function (){
     });
 });
 
+Route::get('/zz', function () {
+    return 500;
+});
